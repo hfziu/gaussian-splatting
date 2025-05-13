@@ -1,0 +1,46 @@
+[project]
+name = "gaussian-splatting"
+version = "0.1.0"
+description = "The original 3DGS paper, with uv as an environment manager."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[project.optional-dependencies]
+build = [
+    "joblib>=1.5.0",
+    "opencv-python>=4.11.0.86",
+    "pip>=25.1.1",
+    "plyfile>=1.1",
+    "torch>=2.7.0",
+    "torchaudio>=2.7.0",
+    "torchvision>=0.22.0",
+    "tqdm>=4.67.1"
+]
+compile = [
+    "simple-knn",
+    "fused-ssim",
+    "diff-gaussian-rasterization",
+]
+
+[tool.uv]
+no-build-isolation-package = ["fused-ssim", "diff-gaussian-rasterization", "simple-knn"]
+dependency-metadata = [
+    { name = "fused-ssim", version = "0.0.0", requires-dist = ["torch"] },
+    { name = "diff-gaussian-rasterization", version = "0.0.0", requires-dist = ["torch"] },
+    { name = "simple-knn", version = "0.0.0", requires-dist = ["torch"] },
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchaudio = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
+# xformers = { index = "pytorch-cu128" }
+fused-ssim = { git = "https://github.com/rahul-goel/fused-ssim.git" }
+diff-gaussian-rasterization = { git = "https://github.com/hfziu/diff-gaussian-rasterization.git" }
+simple-knn = { git = "https://gitlab.inria.fr/bkerbl/simple-knn.git" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
